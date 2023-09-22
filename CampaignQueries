@@ -65,3 +65,22 @@ from campaigndata
 where status = 'Closed Won'
 group by Primary_Competitor, status
 order by TotalWins desc
+
+--shows number of opportunites still available per capaign
+select campaign_name, count(status)
+from campaigndata
+where status = 'Open'
+group by campaign_name
+
+--shows wins per competitor per campaign
+select distinct(campaign_name), Primary_Competitor, status, COUNT(status) as TotalWins
+from campaigndata
+where status = 'Closed Won'
+group by Primary_Competitor, status, campaign_name
+order by campaign_name desc
+
+--shows how many wins each campaign generated
+select Campaign_name, status, count(status)
+from campaigndata
+where status = 'Closed Won'
+group by campaign_name, status
