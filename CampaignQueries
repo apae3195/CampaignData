@@ -1,0 +1,67 @@
+--Cleaning the data
+
+
+-- update campaigndata
+-- set Campaign_Name = 'Campaign A-3'
+-- where Campaign_Name = 'Campaign A.3'
+
+-- update campaigndata
+-- set Campaign_Name = 'Campaign A-1'
+-- where Campaign_Name = 'Campaign A1'
+
+-- update campaigndata
+-- set Primary_Competitor = 'WonderPay'
+-- where Primary_Competitor in ('Wonder Pay','WonderrPay','Wonderpay')
+
+-- update campaigndata
+-- set Primary_Competitor = 'Premier Checks'
+-- where Primary_Competitor = 'PremierChecks'
+
+------------
+
+-- shows total opportunities by status
+select count(Opportunity_Id) as NumberOfOpportunities, status
+from campaigndata
+group by status
+order by NumberOfOpportunities desc
+
+
+--Total Closed Won Net Revenue
+select status, SUM(Net_Revenue) as TotalRevenue
+from campaigndata
+where status = 'Closed Won'
+group by status
+
+
+--Average Sales Price for Closed Won Deals
+select AVG(Net_Revenue) as AvgSalesPrice, status
+from campaigndata
+where status = 'Closed Won'
+group by status
+
+--Average Age (in days) from Created to Closed
+----Include the age of open opportunities (use today as the reference date)
+select avg(DATEDIFF(day,Created_Date, ISNULL(Closed_Won_Closed_Lost_Date, GETDATE()))) as AvgAgeinDays
+from campaigndata
+
+
+-----------------------------
+
+-- shows total revenue per campaign in descending order
+select campaign_name, SUM(net_revenue) as Total_Revenue
+from campaigndata
+group by campaign_name
+order by Total_Revenue desc
+
+--shows total number of opportunities from smallest to largest
+select campaign_name, COUNT(Campaign_Name) as Total_Opportunities
+from campaigndata
+group by Campaign_Name
+order by Total_Opportunities asc
+
+-- shows which competitor we won the most deals against
+select Primary_Competitor, status, COUNT(status) as TotalWins
+from campaigndata
+where status = 'Closed Won'
+group by Primary_Competitor, status
+order by TotalWins desc
