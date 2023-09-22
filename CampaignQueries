@@ -1,5 +1,8 @@
 --Cleaning the data
 
+-- update campaigndata
+-- set Closed_Won_Closed_Lost_Date = GETDATE()
+-- where Closed_Won_Closed_Lost_Date is null
 
 -- update campaigndata
 -- set Campaign_Name = 'Campaign A-3'
